@@ -1,4 +1,3 @@
-group_vars/all
 keypair: "demo-key"
 security_group: "sg-01a15c95a6b89ff0d"
 vpc_id: "vpc-e92ad194"
