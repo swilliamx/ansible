@@ -1,0 +1,22 @@
+---
+- name: Create an ec2 instance
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+     - ~/keys.yml
+
+  tasks:
+    - name: Create an ec2 instance
+      ec2:
+         aws_access_key: "{{ AWS_ACCESS_KEY_ID }} "
+         aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+         key_name: "{{ keypair }}"
+         group: "{{ security_group }}"
+         instance_type: "{{ instance_type }}"
+         image: "{{ ami_id }}"
+         wait: true
+         region: "{{ region}}"
+         count: 2
+         vpc_subnet_id: "{{ vpc_id }}"
+    - debug: var=ansible_host
