@@ -1,0 +1,38 @@
+---
+ - name: This playbook is used to start stop terminate ec2 instance
+   hosts: localhost
+   connection: local
+   gather_facts: False
+   #   vars_files:
+   #          - ~/keys.yml
+
+   tasks:
+   - name: starting ec2 instance 
+     ec2:
+      instance_ids: i-0ac5c68373378f5af
+      region: us-east-1
+      state: running 
+      wait: yes
+     tags: 
+      - start 
+      - never 
+
+   - name: stopping ec2 instance
+     ec2:
+      instance_ids: i-0ac5c68373378f5af
+      region: us-east-1
+      state: stopped
+      wait: yes
+     tags:
+      - stop
+      - never
+
+   - name: terminating ec2 instance
+     ec2:
+      instance_ids: i-0ac5c68373378f5af
+      region: us-east-1
+      state: terminate
+      wait: yes
+     tags:
+      - terminate
+      - never
