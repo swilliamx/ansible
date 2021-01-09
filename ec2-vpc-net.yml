@@ -1,14 +1,20 @@
-- hosts: localhost
-  gather_facts: no
+---
+- name: Play to create EC2 resources and finally a RHEL8 instance.
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
   vars_files:
-    - keys.yml
+    - ~/aws_keys.yml
+    - group_vars/all
+
 
   tasks:
-    - name: Create a VPC with dedicated tenancy 
+    - name: Create a VPC 
       ec2_vpc_net: 
         aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
         aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
-        region: "{{ AWS_REGION }}"
+        region: "{{ region }}"
         name: AnsibleVPC
         cidr_block: 10.10.0.0/16
         tags:
