@@ -1,0 +1,32 @@
+---
+- name: Play to create EC2 resources and finally a RHEL8 instance.
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  vars_files:
+    - ~/aws_keys.yml
+    - group_vars/all    
+    
+    - name: Task 8 → Provision the RHEL8 EC2 instance 
+      ec2:
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        region: "{{ region }}"       
+        key_name: "{{ ssh_keyname }}"
+        instance_type: "{{ instance_type }}"
+        image: "{{ ami_id }}"
+        user_data: "{{ lookup('file', 'user_data.sh') }}"
+        wait: yes
+        group_id: "{{ my_vpc_sg.group_id }}"
+        count: 2
+        state: present 
+        vpc_subnet_id: "{{ public_subnet.subnet.id }}"
+        assign_public_ip: yes
+        instance_tags:
+          Name: development
+      register: ec2
+
+    - name: Print the results
+      debug: 
+        var: ec2
