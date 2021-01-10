@@ -1,0 +1,19 @@
+---
+- name: Play to create EC2 resources and finally a RHEL8 instance.
+  hosts: localhost
+  connection: localhost
+  gather_facts: True
+
+  vars_files:
+    - ~/aws_keys.yml
+    - group_vars/all
+    
+  tasks:
+    - name: Attach Volume
+      ec2:
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        ec2_region: "{{ region }}"
+        instance: <put the intance id>
+        id: <put the vol id>
+        delete_on_termination: yes
