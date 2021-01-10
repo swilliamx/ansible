@@ -1,0 +1,13 @@
+---
+- name: Change instances state by tag
+  hosts: localhost
+  gather_facts: yes
+  vars_files:
+    - ~/keys.yml
+
+  tasks:
+    - name: Delete a EC2 key
+      ec2_key:
+          name: test-key
+          region: us-east-1
+          state: absent
