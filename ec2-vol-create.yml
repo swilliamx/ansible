@@ -1,0 +1,23 @@
+---
+- name: Play to create EC2 resources and finally a RHEL8 instance.
+  hosts: localhost
+  connection: localhost
+  gather_facts: True
+
+  vars_files:
+    - ~/aws_keys.yml
+    - group_vars/all
+
+  tasks:
+    - name: Create new EBS Volume
+      ec2:
+        aws_access_key: "{{ AWS_ACCESS_KEY_ID }}"
+        aws_secret_key: "{{ AWS_SECRET_ACCESS_KEY }}"
+        ec2_region: "{{ region }}"
+        zone: us-east-1
+        volume_size: "1"
+        name: demo_volume
+        device_name: /dev/xvdf
+      register: vol_info
+    - debug:
+        var: vol_info
